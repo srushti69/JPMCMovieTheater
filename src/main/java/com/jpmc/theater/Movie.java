@@ -1,6 +1,7 @@
 package com.jpmc.theater;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Movie {
@@ -32,28 +33,40 @@ public class Movie {
     }
 
     public double calculateTicketPrice(Showing showing) {
-        return ticketPrice - getDiscount(showing.getSequenceOfTheDay());
+        return ticketPrice - getDiscount(showing.getSequenceOfTheDay(), showing.getStartTime());
     }
 
-    private double getDiscount(int showSequence) {
+    private double getDiscount(int showSequence, LocalDateTime ldt) {
         double specialDiscount = 0;
+        double specialTimeDiscount = 0;
+        double sequenceDiscount = 0;
+        int hour = ldt.getHour();
+        int minute = ldt.getMinute();
+        if(hour>= 11 && (hour <= 15 || (hour == 16 && minute == 0))) {
+            specialTimeDiscount = ticketPrice * 0.25;   // 25% discount for showtime starting between 11AM - 4PM
+        }
         if (MOVIE_CODE_SPECIAL == specialCode) {
             specialDiscount = ticketPrice * 0.2;  // 20% discount for special movie
         }
 
-        double sequenceDiscount = 0;
-        if (showSequence == 1) {
-            sequenceDiscount = 3; // $3 discount for 1st show
-        } else if (showSequence == 2) {
-
-            sequenceDiscount = 2; // $2 discount for 2nd show
+        switch(showSequence) {
+            case 1:
+                sequenceDiscount = 3; // $3 discount for 1st show
+                break;
+            case 2:
+                sequenceDiscount = 2; // $2 discount for 2nd show
+                break;
+            case 7:
+                sequenceDiscount = 1; // $1 discount for 7th show
+                break;
         }
 //        else {
 //            throw new IllegalArgumentException("failed exception");
 //        }
 
         // biggest discount wins
-        return specialDiscount > sequenceDiscount ? specialDiscount : sequenceDiscount;
+        return (specialDiscount > sequenceDiscount) ? (specialDiscount > specialTimeDiscount ? specialDiscount : specialTimeDiscount) :
+                (sequenceDiscount > specialTimeDiscount ? sequenceDiscount : specialTimeDiscount);
     }
 
     @Override

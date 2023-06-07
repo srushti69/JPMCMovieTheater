@@ -1,8 +1,12 @@
 package com.jpmc.theater;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -42,19 +46,26 @@ public class Theater {
     }
 
     public void printSchedule() {
-        System.out.println(provider.currentDate());
-        System.out.println("===================================================");
-        schedule.forEach(s ->
-                System.out.println(s.getSequenceOfTheDay() + ": " + s.getStartTime() + " " + s.getMovie().getTitle() + " " + humanReadableFormat(s.getMovie().getRunningTime()) + " $" + s.getMovieFee())
-        );
-        System.out.println("===================================================");
+        JSONObject jsonObj = new JSONObject();
+        HashMap rows;
+        JSONArray list = new JSONArray();
+        for(Showing s : schedule) {
+            rows = new HashMap();
+            rows.put("movie", s.getMovie().getTitle());
+            rows.put("slot", s.getStartTime().getHour() + ":" + s.getStartTime().getMinute());
+            rows.put("duration", humanReadableFormat(s.getMovie().getRunningTime()));
+            rows.put("price", "$" + s.getMovieFee());
+            list.put(rows);
+        }
+        jsonObj.put(provider.currentDate().toString(), list);
+        System.out.println(jsonObj.toString(4));
     }
 
     public String humanReadableFormat(Duration duration) {
         long hour = duration.toHours();
         long remainingMin = duration.toMinutes() - TimeUnit.HOURS.toMinutes(duration.toHours());
 
-        return String.format("(%s hour%s %s minute%s)", hour, handlePlural(hour), remainingMin, handlePlural(remainingMin));
+        return String.format("%s hour%s %s minute%s", hour, handlePlural(hour), remainingMin, handlePlural(remainingMin));
     }
 
     // (s) postfix should be added to handle plural correctly
