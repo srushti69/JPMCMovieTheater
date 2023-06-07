@@ -41,7 +41,7 @@ public class MovieTests {
     }
 
     /*
-        showtime is between 11am - 4pm
+        Showtime is between 11am - 4pm, Audience will get 25% off
      */
     @Test
     void whenShowTime() {

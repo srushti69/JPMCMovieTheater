@@ -30,7 +30,7 @@ This is a poorly written application, and we're expecting the candidate to great
 
 
 
-## Srushti Comments
-* All the New requirements are implemented with the test cases.
-* Created User Input requirements to make reservation
+## Srushti's Comments
+* All the New requirements are implemented with the test cases
+* Created Customer Input requirements to make reservation
 * Have displayed discounted price in schedule as well as in calculation

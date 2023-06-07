@@ -47,6 +47,9 @@ public class Theater {
         return new Reservation(customer, showing, howManyTickets);
     }
 
+    /*
+    * Print schedule in JSON format.
+    * */
     public void printSchedule() {
         JSONObject jsonObj = new JSONObject();
         Map<String, Object> rows;
