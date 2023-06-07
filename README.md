@@ -27,3 +27,10 @@ This is a poorly written application, and we're expecting the candidate to great
   * Any movies showing on 7th, you'll get 1$ discount
   * The discount amount applied only one if met multiple rules; biggest amount one
 * We want to print the movie schedule with simple text & json format
+
+
+
+## Srushti Comments
+* All the New requirements are implemented with the test cases.
+* Created User Input requirements to make reservation
+* Have displayed discounted price in schedule as well as in calculation
