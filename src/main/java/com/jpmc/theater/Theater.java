@@ -8,12 +8,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Theater {
 
     LocalDateProvider provider;
-    private List<Showing> schedule;
+    private final List<Showing> schedule;
 
     public Theater(LocalDateProvider provider) {
         this.provider = provider;
@@ -40,17 +42,18 @@ public class Theater {
             showing = schedule.get(sequence - 1);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
-            throw new IllegalStateException("not able to find any showing for given sequence " + sequence);
+            throw new IllegalStateException("Not able to find any showing for given sequence " + sequence);
         }
         return new Reservation(customer, showing, howManyTickets);
     }
 
     public void printSchedule() {
         JSONObject jsonObj = new JSONObject();
-        HashMap rows;
+        Map<String, Object> rows;
         JSONArray list = new JSONArray();
         for(Showing s : schedule) {
-            rows = new HashMap();
+            rows = new HashMap<>();
+            rows.put("sequence", s.getSequenceOfTheDay());
             rows.put("movie", s.getMovie().getTitle());
             rows.put("slot", s.getStartTime().getHour() + ":" + s.getStartTime().getMinute());
             rows.put("duration", humanReadableFormat(s.getMovie().getRunningTime()));
@@ -81,5 +84,16 @@ public class Theater {
     public static void main(String[] args) {
         Theater theater = new Theater(LocalDateProvider.singleton());
         theater.printSchedule();
+        Scanner input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Enter Sequence number you would like to reserve ticket/s for:");
+        int seq = input.nextInt();
+        System.out.println("Enter number of people:");
+        int audience = input.nextInt();
+        System.out.println("Enter Customer Name:");
+        String name = input.next();
+        int id = 1;
+        Customer cus = new Customer(name, name+id);
+        Reservation reserve = theater.reserve(cus, seq, audience);
+        System.out.print("YOUR TOTAL COST: $" + reserve.totalFee());
     }
 }

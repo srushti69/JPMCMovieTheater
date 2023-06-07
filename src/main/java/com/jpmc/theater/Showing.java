@@ -3,9 +3,9 @@ package com.jpmc.theater;
 import java.time.LocalDateTime;
 
 public class Showing {
-    private Movie movie;
-    private int sequenceOfTheDay;
-    private LocalDateTime showStartTime;
+    private final Movie movie;
+    private final int sequenceOfTheDay;
+    private final LocalDateTime showStartTime;
 
     public Showing(Movie movie, int sequenceOfTheDay, LocalDateTime showStartTime) {
         this.movie = movie;
@@ -21,19 +21,12 @@ public class Showing {
         return showStartTime;
     }
 
-    public boolean isSequence(int sequence) {
-        return this.sequenceOfTheDay == sequence;
-    }
-
     public double getMovieFee() {
-        return movie.getTicketPrice();
+        return movie.calculateTicketPrice(this);
     }
 
     public int getSequenceOfTheDay() {
         return sequenceOfTheDay;
     }
 
-    private double calculateFee(int audienceCount) {
-        return movie.calculateTicketPrice(this) * audienceCount;
-    }
 }

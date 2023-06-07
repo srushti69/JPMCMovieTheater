@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Movie {
-    private static int MOVIE_CODE_SPECIAL = 1;
+    private final static int MOVIE_CODE_SPECIAL = 1;
 
-    private String title;
+    private final String title;
     private String description;
-    private Duration runningTime;
-    private double ticketPrice;
-    private int specialCode;
+    private final Duration runningTime;
+    private final double ticketPrice;
+    private final int specialCode;
 
     public Movie(String title, Duration runningTime, double ticketPrice, int specialCode) {
         this.title = title;
@@ -60,13 +60,9 @@ public class Movie {
                 sequenceDiscount = 1; // $1 discount for 7th show
                 break;
         }
-//        else {
-//            throw new IllegalArgumentException("failed exception");
-//        }
 
         // biggest discount wins
-        return (specialDiscount > sequenceDiscount) ? (specialDiscount > specialTimeDiscount ? specialDiscount : specialTimeDiscount) :
-                (sequenceDiscount > specialTimeDiscount ? sequenceDiscount : specialTimeDiscount);
+        return Math.max(specialDiscount, Math.max(sequenceDiscount, specialTimeDiscount));
     }
 
     @Override
