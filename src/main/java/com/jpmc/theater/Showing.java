@@ -3,9 +3,9 @@ package com.jpmc.theater;
 import java.time.LocalDateTime;
 
 public class Showing {
-    private final Movie movie;
-    private final int sequenceOfTheDay;
-    private final LocalDateTime showStartTime;
+    private Movie movie;
+    private int sequenceOfTheDay;
+    private LocalDateTime showStartTime;
 
     public Showing(Movie movie, int sequenceOfTheDay, LocalDateTime showStartTime) {
         this.movie = movie;

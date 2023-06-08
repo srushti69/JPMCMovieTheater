@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class Theater {
 
     LocalDateProvider provider;
-    private final List<Showing> schedule;
+    private List<Showing> schedule;
 
     public Theater(LocalDateProvider provider) {
         this.provider = provider;

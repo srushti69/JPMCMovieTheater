@@ -7,11 +7,11 @@ import java.util.Objects;
 public class Movie {
     private final static int MOVIE_CODE_SPECIAL = 1;
 
-    private final String title;
+    private String title;
     private String description;
-    private final Duration runningTime;
-    private final double ticketPrice;
-    private final int specialCode;
+    private Duration runningTime;
+    private double ticketPrice;
+    private int specialCode;
 
     public Movie(String title, Duration runningTime, double ticketPrice, int specialCode) {
         this.title = title;
